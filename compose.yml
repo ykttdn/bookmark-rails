@@ -1,0 +1,30 @@
+x-db-config: &db-config
+  POSTGRES_USER: app
+  POSTGRES_PASSWORD: password
+
+services:
+  rails:
+    build: .
+    command: bash -c "bundle install && bin/rails server -b 0.0.0.0 -p 8000"
+    ports:
+      - "8000:8000"
+    environment:
+      <<: *db-config
+    volumes:
+      - ./:/app
+      - gem-data:/usr/local/bundle
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:18.1
+    ports:
+      - "5432:5432"
+    environment:
+      <<: *db-config
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+volumes:
+  gem-data:
+  postgres-data:
