@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
+class Api::Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user_params = {
       registration: {
@@ -13,7 +13,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user with valid params" do
     assert_difference("User.count") do
-      post "/sign_up", params: @user_params
+      post "/api/sign_up", params: @user_params
     end
 
     assert_response :ok
@@ -29,7 +29,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_no_difference("User.count") do
-      post "/sign_up", params: invalid_params
+      post "/api/sign_up", params: invalid_params
     end
 
     assert_response :unprocessable_entity
@@ -47,7 +47,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_no_difference("User.count") do
-      post "/sign_up", params: mismatched_params
+      post "/api/sign_up", params: mismatched_params
     end
 
     assert_response :unprocessable_entity
@@ -59,7 +59,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     User.create!(email: "test@example.com", password: "password123")
 
     assert_no_difference("User.count") do
-      post "/sign_up", params: @user_params
+      post "/api/sign_up", params: @user_params
     end
 
     assert_response :unprocessable_entity
@@ -68,7 +68,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign in user after registration" do
-    post "/sign_up", params: @user_params
+    post "/api/sign_up", params: @user_params
 
     assert_response :ok
     assert_not_nil cookies["_bookmark_rails_session"]
