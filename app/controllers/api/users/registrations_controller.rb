@@ -20,6 +20,10 @@ class Api::Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  %i[new edit update destroy cancel].each do |action|
+    define_method(action) { render status: :not_found }
+  end
+
   protected
 
   def sign_up_params
