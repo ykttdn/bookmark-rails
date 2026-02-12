@@ -1,0 +1,30 @@
+plugins:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  Exclude:
+    - '.git/**/*'
+    - 'db/schema.rb'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+
+Metrics:
+  Enabled: false
+
+Rails:
+  Exclude:
+    - 'bin/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: always
