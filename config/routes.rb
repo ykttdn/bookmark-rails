@@ -8,10 +8,13 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   namespace :api do
-    devise_for :users,
-      controllers: { registrations: 'api/users/registrations' },
-      path: '',
-      path_names: { registration: 'sign_up' },
-      only: :registrations
+    devise_for(
+      :users, {
+        controllers: { registrations: 'api/users/registrations' },
+        path: '',
+        path_names: { registration: 'sign_up' },
+        only: :registrations
+      }
+    )
   end
 end

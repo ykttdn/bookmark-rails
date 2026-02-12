@@ -11,12 +11,12 @@ module Api
               render json: {}, status: :ok
             else
               expire_data_after_sign_in!
-              render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+              render json: { errors: resource.errors.full_messages }, status: :unprocessable_content
             end
           else
             clean_up_passwords resource
             set_minimum_password_length
-            render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: resource.errors.full_messages }, status: :unprocessable_content
           end
           return
         end
@@ -29,7 +29,7 @@ module Api
       protected
 
       def sign_up_params
-        params.expect(registration: [:email, :password, :password_confirmation])
+        params.expect(registration: %i[email password password_confirmation])
       end
     end
   end
