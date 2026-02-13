@@ -1,0 +1,30 @@
+name: Minitest
+
+on: push
+
+jobs:
+  minitest:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:18.1
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U app" --health-interval 5s --health-timeout 5s --health-retries 20
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: password
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Set up DB
+        run: bin/rails db:setup
+        env:
+          RAILS_ENV: test
+      - name: Run Minitest
+        run: bin/rails test
