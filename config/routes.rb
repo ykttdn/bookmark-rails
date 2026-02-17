@@ -10,11 +10,14 @@ Rails.application.routes.draw do
   namespace :api do
     devise_for(
       :users, {
+        singular: 'user',
         controllers: { registrations: 'api/users/registrations' },
         path: '',
         path_names: { registration: 'sign_up' },
         only: :registrations
       }
     )
+
+    get 'users/me' => 'users#me'
   end
 end
