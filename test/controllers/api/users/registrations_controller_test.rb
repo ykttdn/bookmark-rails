@@ -77,8 +77,7 @@ module Api
       test 'should sign in user after registration' do
         post '/api/sign_up', params: @user_params
 
-        assert_response :ok
-        assert_not_nil cookies['_bookmark_rails_session']
+        assert_predicate @controller, :user_signed_in?
       end
     end
   end
