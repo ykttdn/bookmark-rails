@@ -11,10 +11,10 @@ Rails.application.routes.draw do
     devise_for(
       :users, {
         singular: 'user',
-        controllers: { registrations: 'api/users/registrations' },
+        module: 'api/users',
         path: '',
         path_names: { registration: 'sign_up' },
-        only: :registrations
+        only: %i[sessions registrations]
       }
     )
 

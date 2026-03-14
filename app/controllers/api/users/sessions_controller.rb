@@ -3,29 +3,29 @@
 module Api
   module Users
     class SessionsController < Devise::SessionsController
-      # before_action :configure_sign_in_params, only: [:create]
+      include ActionController::MimeResponds
 
-      # GET /resource/sign_in
-      # def new
-      #   super
-      # end
+      def create
+        user = User.find_by(email: params[:email])
 
-      # POST /resource/sign_in
-      # def create
-      #   super
-      # end
+        if user&.valid_password?(params[:password])
+          sign_in(:user, user)
+          render status: :ok
+        else
+          render json: { errors: [I18n.t('devise.failure.not_found_in_database', authentication_keys: :email)] },
+                 status: :unauthorized
+        end
+      end
 
-      # DELETE /resource/sign_out
-      # def destroy
-      #   super
-      # end
+      def destroy
+        sign_out(current_user)
 
-      # protected
+        render status: :no_content
+      end
 
-      # If you have extra params to permit, append them to the sanitizer.
-      # def configure_sign_in_params
-      #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-      # end
+      def new # rubocop:disable Rails/ActionOrder
+        render status: :not_found
+      end
     end
   end
 end
