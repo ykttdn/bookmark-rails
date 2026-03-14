@@ -3,6 +3,8 @@
 module Api
   module Users
     class SessionsController < Devise::SessionsController
+      include ActionController::MimeResponds
+
       def create
         user = User.find_by(email: params[:email])
 
@@ -13,6 +15,12 @@ module Api
           render json: { errors: [I18n.t('devise.failure.not_found_in_database', authentication_keys: :email)] },
                  status: :unauthorized
         end
+      end
+
+      def destroy
+        sign_out(current_user)
+
+        render status: :no_content
       end
     end
   end
