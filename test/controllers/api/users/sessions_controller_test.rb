@@ -5,8 +5,6 @@ require 'test_helper'
 module Api
   module Users
     class SessionsControllerTest < ActionDispatch::IntegrationTest
-      include Devise::Test::IntegrationHelpers
-
       setup do
         @user = User.create!(email: 'test@example.com', password: 'password123')
       end

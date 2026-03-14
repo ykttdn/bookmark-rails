@@ -2,8 +2,6 @@
 
 module Api
   class UsersControllerTest < ActionDispatch::IntegrationTest
-    include Devise::Test::IntegrationHelpers
-
     test 'should get me when signed in' do
       alice = users(:alice)
       sign_in alice
