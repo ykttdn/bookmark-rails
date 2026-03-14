@@ -22,6 +22,10 @@ module Api
 
         render status: :no_content
       end
+
+      def new # rubocop:disable Rails/ActionOrder
+        render status: :not_found
+      end
     end
   end
 end
