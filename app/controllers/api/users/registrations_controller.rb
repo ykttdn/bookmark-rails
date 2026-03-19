@@ -8,21 +8,17 @@ module Api
       unauthenticated_access_only only: :create
 
       def create
-        super do |resource|
-          if resource.persisted?
-            if resource.active_for_authentication?
-              sign_up(resource_name, resource)
-              render json: {}, status: :ok
-            else
-              expire_data_after_sign_in!
-              render json: { errors: resource.errors.full_messages }, status: :unprocessable_content
-            end
+        user = User.new(sign_up_params)
+
+        if user.save
+          if user.active_for_authentication?
+            sign_in(user)
+            render status: :ok
           else
-            clean_up_passwords resource
-            set_minimum_password_length
-            render json: { errors: resource.errors.full_messages }, status: :unprocessable_content
+            render json: { errors: user.errors.full_messages }, status: :unprocessable_content
           end
-          return
+        else
+          render json: { errors: user.errors.full_messages }, status: :unprocessable_content
         end
       end
 
@@ -30,7 +26,7 @@ module Api
         define_method(action) { render status: :not_found }
       end
 
-      protected
+      private
 
       def sign_up_params
         params.expect(registration: %i[email password password_confirmation])
