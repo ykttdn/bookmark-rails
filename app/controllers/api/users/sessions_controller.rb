@@ -4,6 +4,9 @@ module Api
   module Users
     class SessionsController < Devise::SessionsController
       include ActionController::MimeResponds
+      include Authentication
+
+      unauthenticated_access_only only: :create
 
       def create
         user = User.find_by(email: params[:email])

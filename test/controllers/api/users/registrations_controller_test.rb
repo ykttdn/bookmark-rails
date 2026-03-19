@@ -79,6 +79,15 @@ module Api
 
         assert_predicate @controller, :user_signed_in?
       end
+
+      test 'should return error on registration attempt if user is already signed in' do
+        user = User.create!(email: 'test2@example.com', password: 'password123')
+        sign_in user
+
+        post '/api/sign_up', params: @user_params
+
+        assert_response :forbidden
+      end
     end
   end
 end

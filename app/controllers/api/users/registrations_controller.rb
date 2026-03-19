@@ -3,6 +3,10 @@
 module Api
   module Users
     class RegistrationsController < Devise::RegistrationsController
+      include Authentication
+
+      unauthenticated_access_only only: :create
+
       def create
         super do |resource|
           if resource.persisted?
