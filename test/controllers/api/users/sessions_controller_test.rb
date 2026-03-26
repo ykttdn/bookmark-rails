@@ -31,6 +31,16 @@ module Api
         assert_equal 'Invalid email or password.', error
       end
 
+      test 'should return error on sign in attempt if user is already signed in' do
+        sign_in @user
+        post '/api/sign_in', params: {
+          email: @user.email,
+          password: @user.password
+        }
+
+        assert_response :forbidden
+      end
+
       test 'should sign out user' do
         sign_in @user
 
