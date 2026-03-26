@@ -37,7 +37,8 @@ module Api
         end
 
         assert_response :unprocessable_entity
-        json_response = JSON.parse(@response.body)
+
+        json_response = response.parsed_body
 
         assert_includes json_response['errors'], 'Email is invalid'
       end
@@ -56,7 +57,8 @@ module Api
         end
 
         assert_response :unprocessable_entity
-        json_response = JSON.parse(@response.body)
+
+        json_response = response.parsed_body
 
         assert_includes json_response['errors'], "Password confirmation doesn't match Password"
       end
@@ -69,7 +71,8 @@ module Api
         end
 
         assert_response :unprocessable_entity
-        json_response = JSON.parse(@response.body)
+
+        json_response = response.parsed_body
 
         assert_includes json_response['errors'], 'Email has already been taken'
       end
