@@ -1,4 +1,4 @@
-FROM ruby:4.0.1-slim-trixie
+FROM ruby:4.0.2-slim-trixie
 
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends -qq \
